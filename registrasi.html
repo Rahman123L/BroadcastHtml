@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registrasi - Infomedia Broadcast</title>
+    <meta name="description"
+        content="Halaman registrasi Infomedia Broadcast untuk pendaftaran pengguna baru pada platform WhatsApp Broadcast enterprise." />
+
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            300: '#93c5fd',
+                            400: '#60a5fa',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            800: '#1e3a8a',
+                            900: '#0f172a',
+                        },
+                        accent: '#06b6d4',
+                    },
+                    boxShadow: {
+                        soft: '0 20px 80px rgba(15, 23, 42, 0.12)',
+                        glow: '0 0 0 1px rgba(255,255,255,0.08), 0 20px 80px rgba(59,130,246,0.20)',
+                    },
+                    backgroundImage: {
+                        grid: 'linear-gradient(rgba(148,163,184,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(148,163,184,0.08) 1px, transparent 1px)',
+                    },
+                },
+            },
+        };
+    </script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at top right, rgba(6, 182, 212, 0.12), transparent 28%),
+                radial-gradient(circle at top left, rgba(59, 130, 246, 0.10), transparent 30%),
+                #ffffff;
+        }
+
+        .glass {
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .section-grid {
+            background-size: 28px 28px;
+        }
+
+        #hero-canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.9;
+        }
+
+        .text-balance {
+            text-wrap: balance;
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #1d4ed8 0%, #06b6d4 60%, #0f172a 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+    </style>
+</head>
+
+<body class="min-h-screen bg-slate-50 font-sans text-slate-800 antialiased" x-data="app()">
+    <div class="relative min-h-screen overflow-hidden">
+        <canvas id="hero-canvas"></canvas>
+        <main class="relative z-10 mx-auto flex min-h-screen max-w-7xl items-center px-4 py-10 sm:px-6 lg:px-8">
+            <div class="grid w-full gap-8 lg:grid-cols-12 lg:items-center">
+                <section class="lg:col-span-6">
+                    <div class="max-w-xl">
+                        <div
+                            class="hero-reveal inline-flex items-center gap-2 rounded-full border border-brand-100 bg-white/80 px-4 py-2 text-xs font-medium text-brand-700 shadow-soft">
+                            <span class="inline-block h-2 w-2 rounded-full bg-accent"></span>
+                            Enterprise Registration for Broadcast Management Platform
+                        </div>
+
+                        <div class="hero-reveal mt-6 flex items-center gap-3">
+                            <div
+                                class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-700 to-accent text-sm font-bold text-white shadow-lg shadow-brand-500/20">
+                                IN
+                            </div>
+                            <div>
+                                <h1 class="text-2xl font-semibold text-slate-900 sm:text-3xl">PT. Infomedia Nusantara
+                                </h1>
+                                <p class="text-sm text-slate-500">Digital Customer Experience Partner</p>
+                            </div>
+                        </div>
+
+                        <h2 class="hero-reveal mt-8 text-4xl font-semibold leading-tight text-slate-900 sm:text-5xl">
+                            Daftarkan akun baru untuk mulai mengelola <span
+                                class="bg-gradient-to-r from-brand-700 via-accent to-slate-900 bg-clip-text text-transparent">Broadcast
+                                WhatsApp</span> secara aman dan terstruktur.
+                        </h2>
+
+                        <p class="hero-reveal mt-5 text-base leading-8 text-slate-600 sm:text-lg">
+                            Buat akun untuk mengakses platform Infomedia Broadcast, mengelola audience, menjalankan
+                            campaign, memantau delivery, dan melihat insight performa komunikasi bisnis dalam satu
+                            dashboard enterprise.
+                        </p>
+
+                        <div class="hero-reveal mt-8 grid gap-4 sm:grid-cols-3">
+                            <div class="rounded-2xl border border-white/70 bg-white/80 p-4 shadow-soft">
+                                <div class="text-lg font-semibold text-slate-900">Quick Onboarding</div>
+                                <p class="mt-1 text-xs leading-5 text-slate-500">Registrasi mudah untuk memulai
+                                    operasional broadcast lebih cepat.</p>
+                            </div>
+                            <div class="rounded-2xl border border-white/70 bg-white/80 p-4 shadow-soft">
+                                <div class="text-lg font-semibold text-slate-900">Role Ready</div>
+                                <p class="mt-1 text-xs leading-5 text-slate-500">Siap digunakan untuk admin, operator,
+                                    dan tim campaign.</p>
+                            </div>
+                            <div class="rounded-2xl border border-white/70 bg-white/80 p-4 shadow-soft">
+                                <div class="text-lg font-semibold text-slate-900">Secure Access</div>
+                                <p class="mt-1 text-xs leading-5 text-slate-500">Akses terpusat untuk kebutuhan
+                                    komunikasi enterprise.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="hero-reveal lg:col-span-6">
+                    <div
+                        class="mx-auto w-full max-w-md rounded-[2rem] border border-white/70 bg-white/85 p-6 shadow-soft backdrop-blur sm:p-8">
+                        <div class="mb-6">
+                            <div class="text-sm font-medium uppercase tracking-[0.22em] text-brand-700">Registrasi
+                                Pengguna Baru</div>
+                            <h3 class="mt-3 text-2xl font-semibold text-slate-900">Form Registrasi</h3>
+                            <p class="mt-2 text-sm leading-7 text-slate-500">
+                                Lengkapi data berikut untuk membuat akun baru dan mulai menggunakan dashboard Infomedia
+                                Broadcast untuk kebutuhan WhatsApp Broadcast bisnis Anda.
+                            </p>
+                        </div>
+
+                        <form class="space-y-5">
+                            <label class="block text-sm font-medium text-slate-700">
+                                Nama Lengkap
+                                <input type="text" placeholder="Nama lengkap"
+                                    class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-4 focus:ring-brand-100" />
+                            </label>
+
+                            <label class="block text-sm font-medium text-slate-700">
+                                Email
+                                <input type="email" placeholder="nama@infomedia.co.id"
+                                    class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-4 focus:ring-brand-100" />
+                            </label>
+
+                            <label class="block text-sm font-medium text-slate-700">
+                                Nomor HP
+                                <input type="text" placeholder="08xxxxxxxxxx"
+                                    class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-4 focus:ring-brand-100" />
+                            </label>
+
+                            <label class="block text-sm font-medium text-slate-700">
+                                Password
+                                <input type="password" placeholder="Minimal 8 karakter"
+                                    class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-4 focus:ring-brand-100" />
+                            </label>
+
+                            <label class="block text-sm font-medium text-slate-700">
+                                Konfirmasi Password
+                                <input type="password" placeholder="Ulangi password"
+                                    class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-4 focus:ring-brand-100" />
+                            </label>
+
+                            <button type="submit"
+                                class="inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-5 py-3.5 text-sm font-medium text-white transition hover:-translate-y-0.5 hover:bg-brand-700">
+                                Registrasi Akun
+                            </button>
+                            <a href="login.html"
+                                class="block text-sm font-medium text-slate-500 hover:text-slate-700">Sudah Punya Akun?
+                                Masuk</a>
+                        </form>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function app() {
+            return {
+                mobileMenu: false,
+            };
+        }
+
+        function tabs() {
+            return {
+                active: 'cx',
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.gsap) {
+                gsap.registerPlugin(ScrollTrigger);
+
+                gsap.from('.hero-reveal', {
+                    y: 28,
+                    opacity: 0,
+                    duration: 0.9,
+                    ease: 'power3.out',
+                    stagger: 0.12,
+                });
+
+                gsap.from('.hero-visual', {
+                    y: 40,
+                    opacity: 0,
+                    duration: 1.1,
+                    delay: 0.25,
+                    ease: 'power3.out',
+                });
+
+                gsap.utils.toArray('.reveal').forEach((item) => {
+                    gsap.from(item, {
+                        scrollTrigger: {
+                            trigger: item,
+                            start: 'top 85%',
+                        },
+                        y: 32,
+                        opacity: 0,
+                        duration: 0.85,
+                        ease: 'power3.out',
+                    });
+                });
+            }
+
+            initThreeBackground();
+        });
+
+        function initThreeBackground() {
+            if (!window.THREE) return;
+
+            const canvas = document.getElementById('hero-canvas');
+            const heroSection = canvas?.parentElement;
+            if (!canvas || !heroSection) return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(55, heroSection.clientWidth / heroSection.clientHeight, 0.1, 1000);
+            camera.position.z = 22;
+
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
+            renderer.setSize(heroSection.clientWidth, heroSection.clientHeight);
+
+            const group = new THREE.Group();
+            scene.add(group);
+
+            const particleCount = 900;
+            const positions = new Float32Array(particleCount * 3);
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 34;
+                positions[i + 1] = (Math.random() - 0.5) * 20;
+                positions[i + 2] = (Math.random() - 0.5) * 20;
+            }
+
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+            const material = new THREE.PointsMaterial({
+                color: 0x2563eb,
+                size: 0.10,
+                transparent: true,
+                opacity: 0.55,
+            });
+
+            const points = new THREE.Points(geometry, material);
+            group.add(points);
+
+            const ringGeometry = new THREE.TorusGeometry(7.5, 0.03, 12, 160);
+            const ringMaterial = new THREE.MeshBasicMaterial({ color: 0x06b6d4, transparent: true, opacity: 0.18 });
+            const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+            ring.rotation.x = 1.2;
+            ring.rotation.y = 0.6;
+            group.add(ring);
+
+            const ring2 = new THREE.Mesh(ringGeometry, new THREE.MeshBasicMaterial({ color: 0x1d4ed8, transparent: true, opacity: 0.12 }));
+            ring2.scale.set(1.22, 1.22, 1.22);
+            ring2.rotation.x = 0.6;
+            ring2.rotation.y = -0.3;
+            group.add(ring2);
+
+            let mouseX = 0;
+            let mouseY = 0;
+
+            const onMouseMove = (event) => {
+                const rect = heroSection.getBoundingClientRect();
+                mouseX = ((event.clientX - rect.left) / rect.width - 0.5) * 2;
+                mouseY = ((event.clientY - rect.top) / rect.height - 0.5) * 2;
+            };
+
+            window.addEventListener('mousemove', onMouseMove);
+
+            const animate = () => {
+                requestAnimationFrame(animate);
+                group.rotation.y += 0.0015;
+                group.rotation.x += 0.0006;
+                group.rotation.y += mouseX * 0.0008;
+                group.rotation.x += mouseY * 0.0004;
+                points.rotation.z += 0.0007;
+                renderer.render(scene, camera);
+            };
+            animate();
+
+            const onResize = () => {
+                const width = heroSection.clientWidth;
+                const height = heroSection.clientHeight;
+                camera.aspect = width / height;
+                camera.updateProjectionMatrix();
+                renderer.setSize(width, height);
+            };
+
+            window.addEventListener('resize', onResize);
+        }
+    </script>
+</body>
+
+</html>

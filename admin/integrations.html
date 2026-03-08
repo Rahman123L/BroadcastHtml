@@ -1,0 +1,437 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Integrasi - Infomedia Broadcast</title>
+    <meta name="description"
+        content="Halaman integrasi Infomedia Broadcast untuk koneksi WhatsApp QR/API, pengaturan keamanan, anti-block management, multi-device, dan monitoring status integrasi enterprise." />
+
+    <link rel="stylesheet" href="/assets/css/main.css">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#eff6ff',
+                            100: '#dbeafe',
+                            200: '#bfdbfe',
+                            500: '#3b82f6',
+                            600: '#2563eb',
+                            700: '#1d4ed8',
+                            900: '#0f172a',
+                        },
+                        accent: '#06b6d4',
+                    },
+                    boxShadow: {
+                        soft: '0 20px 80px rgba(15, 23, 42, 0.10)',
+                        panel: '0 10px 40px rgba(15, 23, 42, 0.08)',
+                    },
+                },
+            },
+        };
+    </script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at top right, rgba(6, 182, 212, 0.10), transparent 24%),
+                radial-gradient(circle at top left, rgba(59, 130, 246, 0.08), transparent 30%),
+                #f8fafc;
+        }
+
+        #bg-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0.35;
+            z-index: 0;
+        }
+    </style>
+</head>
+
+<body class="font-sans text-slate-800 antialiased" x-data="integrationsApp()">
+    <canvas id="bg-canvas"></canvas>
+
+    <div class="relative z-10 min-h-screen lg:flex">
+        <div x-show="sidebarOpen" x-cloak x-transition.opacity
+            class="fixed inset-0 z-40 bg-slate-950/40 backdrop-blur-sm lg:hidden" @click="sidebarOpen = false"></div>
+
+        <aside
+            class="fixed inset-y-0 left-0 z-50 w-80 -translate-x-full border-r border-white/60 bg-slate-950 text-white transition duration-300 lg:translate-x-0"
+            :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'">
+            <div class="flex h-full flex-col">
+                <div class="border-b border-white/10 px-6 py-6">
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-600 to-accent text-sm font-bold text-white shadow-lg shadow-brand-500/20">
+                            IN
+                        </div>
+                        <div>
+                            <div class="text-base font-semibold">Infomedia Broadcast</div>
+                            <div class="mt-1 text-xs leading-5 text-slate-400">PT. Infomedia Nusantara<br />WhatsApp
+                                Broadcast Platform</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="px-4 py-5">
+                    <nav class="space-y-1">
+                        <a href="dashboard.html"
+                            class="flex items-center gap-3 rounded-2xl px-4 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white">Dashboard</a>
+                        <a href="contacts.html"
+                            class="flex items-center gap-3 rounded-2xl px-4 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white">Kontak</a>
+                        <a href="groups.html"
+                            class="flex items-center gap-3 rounded-2xl px-4 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white">Grup</a>
+                        <a href="templates.html"
+                            class="flex items-center gap-3 rounded-2xl px-4 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white">Template</a>
+                        <a href="broadcast.html"
+                            class="flex items-center gap-3 rounded-2xl px-4 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white">Broadcast</a>
+                        <a href="automation.html"
+                            class="flex items-center gap-3 rounded-2xl px-4 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white">Otomasi</a>
+                        <a href="analytics.html"
+                            class="flex items-center gap-3 rounded-2xl px-4 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white">Analitik</a>
+                        <a href="reports.html"
+                            class="flex items-center gap-3 rounded-2xl px-4 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white">Reports</a>
+                        <a href="integrations.html"
+                            class="flex items-center gap-3 rounded-2xl bg-white/10 px-4 py-2 text-sm font-medium text-white">Integrasi</a>
+                        <a href="users.html"
+                            class="flex items-center gap-3 rounded-2xl px-4 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white">Users</a>
+                        <a href="profile.html"
+                            class="flex items-center gap-3 rounded-2xl px-4 py-2 text-sm text-slate-300 transition hover:bg-white/5 hover:text-white">Profile</a>
+                    </nav>
+                </div>
+            </div>
+        </aside>
+
+        <main class="relative min-h-screen flex-1 lg:ml-80">
+            <header class="sticky top-0 z-30 border-b border-white/60 bg-white/75 backdrop-blur-xl">
+                <div class="mx-auto flex max-w-[1600px] items-center justify-between gap-4 px-4 py-4 sm:px-6 lg:px-8">
+                    <div class="flex items-center gap-3">
+                        <button @click="sidebarOpen = true"
+                            class="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-slate-200 bg-white text-slate-700 lg:hidden"
+                            aria-label="Open sidebar">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8"
+                                    d="M4 6h16M4 12h16M4 18h16" />
+                            </svg>
+                        </button>
+                        <div>
+                            <h1 class="text-xl font-semibold text-slate-900 sm:text-2xl">Integrasi & Keamanan</h1>
+                            <p class="hidden md:block mt-1 text-sm text-slate-500">Kelola koneksi WhatsApp via QR atau
+                                API,
+                                multi-device, anti-block management, dan pengaturan keamanan platform.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div
+                            class="hidden rounded-full border border-brand-100 bg-brand-50 px-4 py-2 text-sm font-medium text-brand-700 sm:inline-flex">
+                            Integration Center</div>
+                        <button
+                            class="inline-flex items-center justify-center rounded-full bg-slate-900 px-5 py-3 text-sm font-medium text-white transition hover:-translate-y-0.5 hover:bg-brand-700">Logout</button>
+                    </div>
+                </div>
+            </header>
+
+            <div class="mx-auto max-w-[1600px] px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+                <section class="integrations-reveal grid gap-5 sm:grid-cols-2 xl:grid-cols-4">
+                    <div class="rounded-[1.75rem] border border-white/70 bg-white/85 p-5 shadow-panel backdrop-blur">
+                        <div class="text-sm text-slate-500">QR Session</div>
+                        <div class="mt-3 text-3xl font-semibold text-emerald-600">Active</div>
+                        <div class="mt-2 text-sm text-slate-500">perangkat utama online</div>
+                    </div>
+                    <div class="rounded-[1.75rem] border border-white/70 bg-white/85 p-5 shadow-panel backdrop-blur">
+                        <div class="text-sm text-slate-500">API Status</div>
+                        <div class="mt-3 text-3xl font-semibold text-emerald-600">Connected</div>
+                        <div class="mt-2 text-sm text-slate-500">token valid</div>
+                    </div>
+                    <div class="rounded-[1.75rem] border border-white/70 bg-white/85 p-5 shadow-panel backdrop-blur">
+                        <div class="text-sm text-slate-500">Webhook</div>
+                        <div class="mt-3 text-3xl font-semibold text-amber-600">Review</div>
+                        <div class="mt-2 text-sm text-slate-500">endpoint perlu cek</div>
+                    </div>
+                    <div class="rounded-[1.75rem] border border-white/70 bg-white/85 p-5 shadow-panel backdrop-blur">
+                        <div class="text-sm text-slate-500">Security Mode</div>
+                        <div class="mt-3 text-3xl font-semibold text-slate-900">Strict</div>
+                        <div class="mt-2 text-sm text-slate-500">anti-block aktif</div>
+                    </div>
+                </section>
+
+                <section class="mt-6 grid gap-6 xl:grid-cols-12">
+                    <div
+                        class="integrations-reveal xl:col-span-6 rounded-[2rem] border border-white/70 bg-white/85 p-6 shadow-panel backdrop-blur sm:p-7">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <h3 class="text-xl font-semibold text-slate-900">Integrasi WhatsApp</h3>
+                                <p class="mt-1 text-sm text-slate-500">Hubungkan perangkat melalui QR Session atau
+                                    gunakan koneksi langsung via WhatsApp API untuk kebutuhan enterprise.</p>
+                            </div>
+                            <span
+                                class="rounded-full border border-brand-100 bg-brand-50 px-4 py-2 text-sm font-medium text-brand-700">Connector</span>
+                        </div>
+
+                        <div class="mt-6 grid gap-5 lg:grid-cols-[220px,1fr]">
+                            <div
+                                class="rounded-[1.75rem] border border-dashed border-brand-200 bg-brand-50/60 p-5 text-center">
+                                <div
+                                    class="mx-auto flex h-36 w-36 items-center justify-center rounded-2xl border border-slate-200 bg-white text-xs font-semibold tracking-[0.2em] text-slate-400 shadow-sm">
+                                    QR CODE
+                                </div>
+                                <div class="mt-4 text-sm font-medium text-slate-900">QR Pairing</div>
+                                <div class="mt-1 text-xs text-slate-500">Scan melalui perangkat WhatsApp Business</div>
+                            </div>
+
+                            <div class="rounded-[1.75rem] border border-slate-100 bg-slate-50 p-5">
+                                <p class="text-sm leading-7 text-slate-600">Hubungkan perangkat seperti WhatsApp Web
+                                    atau gunakan koneksi langsung via WhatsApp API untuk pengiriman yang lebih stabil,
+                                    terukur, dan siap integrasi dengan workflow enterprise.</p>
+                                <div class="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+                                    <button
+                                        class="inline-flex items-center justify-center rounded-full bg-slate-900 px-5 py-3 text-sm font-medium text-white transition hover:-translate-y-0.5 hover:bg-brand-700"
+                                        type="button">Generate QR</button>
+                                    <button
+                                        class="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-medium text-slate-700 transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700"
+                                        type="button">Connect API</button>
+                                </div>
+
+                                <div class="mt-6 grid gap-4 sm:grid-cols-2">
+                                    <div class="rounded-2xl bg-white p-4">
+                                        <div class="text-xs uppercase tracking-[0.2em] text-slate-400">Session Type
+                                        </div>
+                                        <div class="mt-2 text-base font-semibold text-slate-900">Multi-Device</div>
+                                    </div>
+                                    <div class="rounded-2xl bg-white p-4">
+                                        <div class="text-xs uppercase tracking-[0.2em] text-slate-400">API Environment
+                                        </div>
+                                        <div class="mt-2 text-base font-semibold text-slate-900">Production Ready</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div
+                        class="integrations-reveal xl:col-span-6 rounded-[2rem] border border-white/70 bg-white/85 p-6 shadow-panel backdrop-blur sm:p-7">
+                        <div class="flex items-start justify-between gap-4">
+                            <div>
+                                <h3 class="text-xl font-semibold text-slate-900">Keamanan & Anti-Block</h3>
+                                <p class="mt-1 text-sm text-slate-500">Atur validasi nomor, delay pengiriman, smart
+                                    delivery, dan multi-perangkat untuk menjaga reputasi dan stabilitas pengiriman.</p>
+                            </div>
+                            <span
+                                class="rounded-full border border-brand-100 bg-brand-50 px-4 py-2 text-sm font-medium text-brand-700">Security
+                                Policy</span>
+                        </div>
+
+                        <form class="mt-6 space-y-5">
+                            <label class="block text-sm font-medium text-slate-700">
+                                Validasi Nomor Aktif
+                                <select
+                                    class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-4 focus:ring-brand-100">
+                                    <option>Aktif Sebelum Pengiriman</option>
+                                    <option>Opsional</option>
+                                </select>
+                            </label>
+
+                            <label class="block text-sm font-medium text-slate-700">
+                                Delay Pengiriman
+                                <select
+                                    class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-4 focus:ring-brand-100">
+                                    <option>15 - 45 detik</option>
+                                    <option>30 - 90 detik</option>
+                                </select>
+                            </label>
+
+                            <label class="block text-sm font-medium text-slate-700">
+                                Smart Delivery
+                                <input type="text" placeholder="Aktif berdasarkan batch & reputasi nomor"
+                                    class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-4 focus:ring-brand-100" />
+                            </label>
+
+                            <label class="block text-sm font-medium text-slate-700">
+                                Multi-Perangkat
+                                <select
+                                    class="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-4 focus:ring-brand-100">
+                                    <option>Enabled</option>
+                                    <option>Disabled</option>
+                                </select>
+                            </label>
+
+                            <button
+                                class="inline-flex w-full items-center justify-center rounded-full bg-slate-900 px-5 py-3 text-sm font-medium text-white transition hover:-translate-y-0.5 hover:bg-brand-700"
+                                type="button">Simpan Konfigurasi</button>
+                        </form>
+                    </div>
+                </section>
+
+                <section
+                    class="integrations-reveal mt-6 rounded-[2rem] border border-white/70 bg-white/85 p-6 shadow-panel backdrop-blur sm:p-7">
+                    <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                        <div>
+                            <div class="flex items-center gap-3">
+                                <h3 class="text-xl font-semibold text-slate-900">Status Integrasi</h3>
+                                <span
+                                    class="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">Live</span>
+                            </div>
+                            <p class="mt-1 text-sm text-slate-500">Pantau status layanan, sinkronisasi terakhir, dan
+                                catatan teknis untuk setiap integrasi utama.</p>
+                        </div>
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
+                            <input type="text" placeholder="Cari layanan..."
+                                class="w-full rounded-full border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-brand-400 focus:ring-4 focus:ring-brand-100 sm:w-72" />
+                            <button
+                                class="inline-flex items-center justify-center rounded-full border border-slate-200 bg-white px-5 py-3 text-sm font-medium text-slate-700 transition hover:border-brand-200 hover:bg-brand-50 hover:text-brand-700">Filter
+                                Status</button>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 overflow-hidden rounded-[1.5rem] border border-slate-100">
+                        <div class="overflow-x-auto">
+                            <table class="min-w-full divide-y divide-slate-100 text-sm">
+                                <thead class="bg-slate-50 text-left text-slate-500">
+                                    <tr>
+                                        <th class="px-5 py-4 font-medium">Layanan</th>
+                                        <th class="px-5 py-4 font-medium">Status</th>
+                                        <th class="px-5 py-4 font-medium">Terakhir Sync</th>
+                                        <th class="px-5 py-4 font-medium">Keterangan</th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-slate-100 bg-white text-slate-700">
+                                    <tr>
+                                        <td class="px-5 py-4 font-medium text-slate-900">WhatsApp QR</td>
+                                        <td class="px-5 py-4"><span
+                                                class="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">Connected</span>
+                                        </td>
+                                        <td class="px-5 py-4">08:00 WIB</td>
+                                        <td class="px-5 py-4">Perangkat utama aktif</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-5 py-4 font-medium text-slate-900">WhatsApp API</td>
+                                        <td class="px-5 py-4"><span
+                                                class="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-medium text-emerald-700">Connected</span>
+                                        </td>
+                                        <td class="px-5 py-4">07:58 WIB</td>
+                                        <td class="px-5 py-4">Token valid</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-5 py-4 font-medium text-slate-900">Webhook</td>
+                                        <td class="px-5 py-4"><span
+                                                class="rounded-full border border-amber-200 bg-amber-50 px-3 py-1 text-xs font-medium text-amber-700">Review</span>
+                                        </td>
+                                        <td class="px-5 py-4">07:50 WIB</td>
+                                        <td class="px-5 py-4">Cek endpoint callback</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function integrationsApp() {
+            return {
+                sidebarOpen: false,
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (window.gsap) {
+                gsap.registerPlugin(ScrollTrigger);
+                gsap.from('.integrations-reveal', {
+                    y: 24,
+                    opacity: 0,
+                    duration: 0.8,
+                    stagger: 0.08,
+                    ease: 'power3.out',
+                });
+            }
+
+            initBackground();
+        });
+
+        function initBackground() {
+            if (!window.THREE) return;
+
+            const canvas = document.getElementById('bg-canvas');
+            if (!canvas) return;
+
+            const scene = new THREE.Scene();
+            const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 24;
+
+            const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.8));
+            renderer.setSize(window.innerWidth, window.innerHeight);
+
+            const group = new THREE.Group();
+            scene.add(group);
+
+            const particleCount = 700;
+            const positions = new Float32Array(particleCount * 3);
+            for (let i = 0; i < particleCount * 3; i += 3) {
+                positions[i] = (Math.random() - 0.5) * 40;
+                positions[i + 1] = (Math.random() - 0.5) * 26;
+                positions[i + 2] = (Math.random() - 0.5) * 24;
+            }
+
+            const geometry = new THREE.BufferGeometry();
+            geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+            const material = new THREE.PointsMaterial({
+                color: 0x2563eb,
+                size: 0.09,
+                transparent: true,
+                opacity: 0.5,
+            });
+
+            const points = new THREE.Points(geometry, material);
+            group.add(points);
+
+            const ringGeometry = new THREE.TorusGeometry(8, 0.03, 12, 120);
+            const ringMaterial = new THREE.MeshBasicMaterial({ color: 0x06b6d4, transparent: true, opacity: 0.12 });
+            const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+            ring.rotation.x = 1.15;
+            ring.rotation.y = 0.3;
+            group.add(ring);
+
+            function animate() {
+                requestAnimationFrame(animate);
+                group.rotation.y += 0.0008;
+                group.rotation.x += 0.0002;
+                points.rotation.z += 0.0004;
+                renderer.render(scene, camera);
+            }
+            animate();
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+    </script>
+</body>
+
+</html>
